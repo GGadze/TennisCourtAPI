@@ -1,0 +1,6 @@
+@PZ_1_tennis_court_HostAddress = http://localhost:5100
+
+GET {{PZ_1_tennis_court_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
