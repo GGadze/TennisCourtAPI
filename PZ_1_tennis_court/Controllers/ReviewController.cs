@@ -38,6 +38,8 @@ namespace PZ_1_tennis_court.Controllers
         [HttpPost]
         public ActionResult<ReviewDTO> Create([FromBody] CreateReviewDTO createReviewDTO)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var review = _reviewService.Create(createReviewDTO);
             return CreatedAtAction(nameof(GetById), new { id = review.Id }, review);
         }

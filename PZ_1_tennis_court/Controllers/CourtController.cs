@@ -38,6 +38,8 @@ namespace PZ_1_tennis_court.Controllers
         [HttpPost]
         public ActionResult<CourtDTO> Create([FromBody] CreateCourtDTO createCourtDTO)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var court = _courtService.Create(createCourtDTO);
             return CreatedAtAction(nameof(GetById), new { id = court.Id }, court);
         }

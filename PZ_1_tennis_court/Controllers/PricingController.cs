@@ -38,6 +38,8 @@ namespace PZ_1_tennis_court.Controllers
         [HttpPost]
         public ActionResult<PricingDTO> Create([FromBody] CreatePricingDTO createPricingDTO)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var pricing = _pricingService.Create(createPricingDTO);
             return CreatedAtAction(nameof(GetById), new { id = pricing.Id }, pricing);
         }

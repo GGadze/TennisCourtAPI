@@ -38,6 +38,8 @@ namespace PZ_1_tennis_court.Controllers
         [HttpPost]
         public ActionResult<BookingDTO> Create([FromBody] CreateBookingDTO createBookingDTO)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var booking = _bookingService.Create(createBookingDTO);
             return CreatedAtAction(nameof(GetById), new { id = booking.Id }, booking);
         }

@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public string SurfaceType { get; set; } = null!;
-        public string Location { get; set; } = null!;
+        public bool IsIndoor { get; set; }
         public bool IsAvailable { get; set; } = true;
         public List<Booking> Bookings { get; set; } = new();
     }
