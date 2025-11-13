@@ -16,6 +16,10 @@ namespace PZ_1_tennis_court.Repositories
         {
             _context.Bookings.Add(entity);
             _context.SaveChanges();
+
+            _context.Entry(entity).Reference(p => p.Court).Load();
+            _context.Entry(entity).Reference(p => p.User).Load();
+            _context.Entry(entity).Reference(p => p.Pricing).Load();
             return entity;
         }
 

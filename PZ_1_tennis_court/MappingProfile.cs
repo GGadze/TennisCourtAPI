@@ -15,9 +15,9 @@ namespace PZ_1_tennis_court
 
             // Booking
             CreateMap<Booking, BookingDTO>()
-                .ForMember(dest => dest.Court, opt => opt.MapFrom(src => src.Court))
-                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
-                .ForMember(dest => dest.Pricing, opt => opt.MapFrom(src => src.Pricing))
+                .ForMember(dest => dest.Court, opt => opt.MapFrom(src => src.Court.Name))
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User.Login))
+                .ForMember(dest => dest.Pricing, opt => opt.MapFrom(src => src.Pricing.TariffName))
                 .PreserveReferences()
                 .MaxDepth(1);
             CreateMap<Booking, CreateBookingDTO>().ReverseMap();
