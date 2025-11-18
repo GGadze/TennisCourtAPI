@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PZ_1_tennis_court.Models.DTO;
@@ -8,6 +9,7 @@ namespace PZ_1_tennis_court.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BookingController : ControllerBase
     {
         private readonly IBookingService _bookingService;
@@ -17,6 +19,16 @@ namespace PZ_1_tennis_court.Controllers
         {
             _bookingService = bookingService;
             _mapper = mapper;
+        }
+
+        [HttpGet("my")]
+        public async Task<IActionResult> GetMyBookings()
+        {
+            int userId = int.Parse(User.FindFirst("id").Value);
+
+            var bookings = _bookingService.GetByUser(userId);
+
+            return Ok(bookings);
         }
 
         [HttpGet]

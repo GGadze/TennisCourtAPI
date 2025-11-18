@@ -19,10 +19,36 @@ namespace PZ_1_tennis_court
             try
             {
                 await _next(context);
+
+                if (context.Response.StatusCode == StatusCodes.Status401Unauthorized)
+                {
+                    context.Response.ContentType = "application/json";
+
+                    var response = new
+                    {
+                        StatusCode = 401,
+                        Message = "Unauthorized: Invalid or missing token"
+                    };
+
+                    await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                }
+                else if (context.Response.StatusCode == StatusCodes.Status403Forbidden)
+                {
+                    context.Response.ContentType = "application/json";
+
+                    var response = new
+                    {
+                        StatusCode = 403,
+                        Message = "Forbidden: You do not have access to this resource"
+                    };
+
+                    await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unhandled exception occurred");
+
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 

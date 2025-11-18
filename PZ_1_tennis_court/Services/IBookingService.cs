@@ -10,5 +10,6 @@ namespace PZ_1_tennis_court.Services
         BookingDTO Update(int id, UpdateBookingDTO updateBookingDTO);
         bool Delete(int id);
         IEnumerable<BookingDTO> GetByUser(int userId);
+
     }
 }

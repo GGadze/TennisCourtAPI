@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PZ_1_tennis_court.Models.DTO;
@@ -19,6 +20,7 @@ namespace PZ_1_tennis_court.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult<IEnumerable<ReviewDTO>> GetAll()
         {
@@ -26,6 +28,7 @@ namespace PZ_1_tennis_court.Controllers
             return Ok(reviews);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public ActionResult<ReviewDTO> GetById(int id)
         {
@@ -35,6 +38,7 @@ namespace PZ_1_tennis_court.Controllers
             return Ok(review);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult<ReviewDTO> Create([FromBody] CreateReviewDTO createReviewDTO)
         {
@@ -44,6 +48,7 @@ namespace PZ_1_tennis_court.Controllers
             return CreatedAtAction(nameof(GetById), new { id = review.Id }, review);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public ActionResult<ReviewDTO> Update(int id, [FromBody] UpdateReviewDTO updateReviewDTO)
         {
@@ -53,6 +58,7 @@ namespace PZ_1_tennis_court.Controllers
             return Ok(updatedReview);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

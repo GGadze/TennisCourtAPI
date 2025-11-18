@@ -1,5 +1,5 @@
-﻿using PZ_1_tennis_court.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using PZ_1_tennis_court.Models;
 
 namespace PZ_1_tennis_court.Repositories
 {
@@ -22,35 +22,21 @@ namespace PZ_1_tennis_court.Repositories
         public bool Delete(int id)
         {
             var user = GetById(id);
-            if (user != null)
-            {
-                _context.Users.Remove(user);
-                _context.SaveChanges();
-                return true;
-            }
-            return false;
+            if (user == null) return false;
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+            return true;
         }
 
-        public bool Exists(int id)
-        {
-            return _context.Users.Any(x => x.Id == id);
-        }
+        public bool Exists(int id) => _context.Users.Any(x => x.Id == id);
 
-        public IEnumerable<User> GetAll()
-        {
-            return _context.Users.Include(u => u.Role).ToList();
-        }
+        public IEnumerable<User> GetAll() => _context.Users.Include(u => u.Role).ToList();
 
-        public User? GetById(int id)
-        {
-            return _context.Users.Include(u => u.Role).FirstOrDefault(x => x.Id == id);
-        }
+        public User? GetById(int id) => _context.Users.Include(u => u.Role).FirstOrDefault(u => u.Id == id);
 
-        public User? GetByLogin(string login)
-        {
-            return _context.Users.Include(u => u.Role)
-                                 .FirstOrDefault(u => u.Login == login);
-        }
+        public User? GetByLogin(string login) => _context.Users.Include(u => u.Role).FirstOrDefault(u => u.Login == login);
+
+        public User? GetByEmail(string email) => _context.Users.Include(u => u.Role).FirstOrDefault(u => u.Email == email);
 
         public User Update(User entity)
         {

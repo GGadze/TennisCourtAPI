@@ -34,6 +34,8 @@ namespace PZ_1_tennis_court.Services
             return _mapper.Map<IEnumerable<BookingDTO>>(bookings);
         }
 
+
+
         public BookingDTO GetById(int id)
         {
             var booking = _bookingRepo.GetById(id);
@@ -54,5 +56,7 @@ namespace PZ_1_tennis_court.Services
             var updated = _bookingRepo.Update(booking);
             return _mapper.Map<BookingDTO>(updated);
         }
+
+        
     }
 }

@@ -61,7 +61,9 @@ namespace PZ_1_tennis_court.Repositories
         public IEnumerable<Booking> GetBookingsByUser(int userId)
         {
             return _context.Bookings
+                .Include(x => x.User)
                 .Include(x => x.Court)
+                .Include(x => x.Pricing)
                 .Where(x => x.UserId == userId)
                 .ToList();
         }

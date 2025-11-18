@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PZ_1_tennis_court.Models.DTO;
@@ -19,6 +20,7 @@ namespace PZ_1_tennis_court.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult<IEnumerable<CourtDTO>> GetAll()
         {
@@ -26,6 +28,7 @@ namespace PZ_1_tennis_court.Controllers
             return Ok(courts);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public ActionResult<CourtDTO> GetById(int id)
         {
@@ -35,6 +38,7 @@ namespace PZ_1_tennis_court.Controllers
             return Ok(court);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<CourtDTO> Create([FromBody] CreateCourtDTO createCourtDTO)
         {
@@ -44,6 +48,7 @@ namespace PZ_1_tennis_court.Controllers
             return CreatedAtAction(nameof(GetById), new { id = court.Id }, court);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public ActionResult<CourtDTO> Update(int id, [FromBody] UpdateCourtDTO updateCourtDTO)
         {
@@ -53,6 +58,7 @@ namespace PZ_1_tennis_court.Controllers
             return Ok(updatedCourt);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

@@ -1,8 +1,10 @@
-
+        
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PZ_1_tennis_court.Models;
 using PZ_1_tennis_court.Repositories;
 using PZ_1_tennis_court.Services;
+using System.Text;
 
 namespace PZ_1_tennis_court 
 {
@@ -34,6 +36,25 @@ namespace PZ_1_tennis_court
             builder.Services.AddScoped<IPricingService, PricingService>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+
+            builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])
+            )
+        };
+    });
+
+            builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
@@ -45,10 +66,11 @@ namespace PZ_1_tennis_court
 
             app.UseHttpsRedirection();
 
-            app.UseMiddleware<GlobalExceptionMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<GlobalExceptionMiddleware>();
 
             app.MapControllers();
 
