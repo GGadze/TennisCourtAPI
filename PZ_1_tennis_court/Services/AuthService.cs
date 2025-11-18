@@ -86,6 +86,7 @@ namespace PZ_1_tennis_court.Services
 
             var claims = new[]
             {
+                new Claim("id", user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Login),
                 new Claim(ClaimTypes.Email, user.Email),

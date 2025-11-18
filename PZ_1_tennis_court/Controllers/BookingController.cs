@@ -22,13 +22,17 @@ namespace PZ_1_tennis_court.Controllers
         }
 
         [HttpGet("my")]
+        [Authorize]
         public async Task<IActionResult> GetMyBookings()
         {
-            int userId = int.Parse(User.FindFirst("id").Value);
+            var idClaim = User.FindFirst("id");
+            if (idClaim == null)
+                return Unauthorized(new { message = "Token is invalid or missing 'id' claim" });
 
+            int userId = int.Parse(idClaim.Value);
             var bookings = _bookingService.GetByUser(userId);
-
             return Ok(bookings);
+
         }
 
         [HttpGet]
