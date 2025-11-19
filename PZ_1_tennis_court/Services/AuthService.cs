@@ -57,7 +57,7 @@ namespace PZ_1_tennis_court.Services
                 Login = request.Login,
                 Email = request.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
-                RoleId = 1
+                RoleId = request.RoleId
             };
 
             _users.Create(newUser);
@@ -67,7 +67,7 @@ namespace PZ_1_tennis_court.Services
                 Id = newUser.Id,
                 Login = newUser.Login,
                 Email = newUser.Email,
-                RoleName = "User"
+                RoleName = newUser.Role.Name
             };
 
             var token = GenerateToken(userDto);

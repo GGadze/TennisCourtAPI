@@ -8,7 +8,6 @@ namespace PZ_1_tennis_court.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -18,6 +17,7 @@ namespace PZ_1_tennis_court.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult<IEnumerable<UserDTO>> GetAll()
         {
@@ -25,6 +25,7 @@ namespace PZ_1_tennis_court.Controllers
             return Ok(users);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public ActionResult<UserDTO> GetById(int id)
         {
@@ -34,6 +35,7 @@ namespace PZ_1_tennis_court.Controllers
             return Ok(user);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<UserDTO> Create(CreateUserDTO createUserDTO)
         {
@@ -41,6 +43,7 @@ namespace PZ_1_tennis_court.Controllers
             return CreatedAtAction(nameof(GetById), new { id = createdUser.Id }, createdUser);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public ActionResult<UserDTO> Update(int id, UpdateUserDTO updateUserDTO)
         {
@@ -50,6 +53,7 @@ namespace PZ_1_tennis_court.Controllers
             return Ok(updatedUser);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -59,6 +63,7 @@ namespace PZ_1_tennis_court.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest loginRequest)
         {

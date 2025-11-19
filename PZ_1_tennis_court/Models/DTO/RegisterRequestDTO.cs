@@ -15,6 +15,6 @@ namespace PZ_1_tennis_court.Models.DTO
         [Required]
         [MinLength(8)]
         public string Password { get; set; } = null!;
-        public string Role { get; set; } = "User";
+        public int RoleId { get; set; } = 1;
     }
 }
