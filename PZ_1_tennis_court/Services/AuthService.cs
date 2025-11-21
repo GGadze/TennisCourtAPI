@@ -1,10 +1,11 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PZ_1_tennis_court.Models;
 using PZ_1_tennis_court.Models.DTO;
 using PZ_1_tennis_court.Repositories;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace PZ_1_tennis_court.Services
 {
@@ -12,11 +13,13 @@ namespace PZ_1_tennis_court.Services
     {
         private readonly IUserRepository _users;
         private readonly IConfiguration _config;
+        private readonly APIDBContext _context;
 
-        public AuthService(IUserRepository users, IConfiguration configuration)
+        public AuthService(IUserRepository users, IConfiguration configuration, APIDBContext context)
         {
             _users = users;
             _config = configuration;
+            _context = context;
         }
 
         public async Task<AuthResponseDTO> LoginAsync(LoginRequest request)
@@ -60,14 +63,15 @@ namespace PZ_1_tennis_court.Services
                 RoleId = request.RoleId
             };
 
-            _users.Create(newUser);
+            var addedUser = _users.Create(newUser);
+            var role = _context.Roles.FirstOrDefault(r => r.Id == addedUser.RoleId);
 
             var userDto = new UserDTO
             {
-                Id = newUser.Id,
-                Login = newUser.Login,
-                Email = newUser.Email,
-                RoleName = newUser.Role.Name
+                Id = addedUser.Id,
+                Login = addedUser.Login,
+                Email = addedUser.Email,
+                RoleName = role.Name
             };
 
             var token = GenerateToken(userDto);

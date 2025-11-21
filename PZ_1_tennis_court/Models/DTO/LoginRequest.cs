@@ -11,6 +11,5 @@ namespace PZ_1_tennis_court.Models.DTO
         [MinLength(8, ErrorMessage = "Минимальная длина пароля — 8 символов")]
         public string Password { get; set; } = null!;
 
-        public int RoleId { get; set; } = 1;
     }
 }

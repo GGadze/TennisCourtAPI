@@ -74,7 +74,7 @@ namespace PZ_1_tennis_court.Controllers
             if (!isValid)
                 return Unauthorized(new { message = "Неверный логин или пароль" });
 
-            return Ok(new { message = "Успешный вход", roleId = loginRequest.RoleId });
+            return Ok(new { message = "Успешный вход"});
         }
     }
 }
